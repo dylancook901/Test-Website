@@ -19,6 +19,10 @@
   font-weight: bold;
 }
 
+.column {
+  width: 25%;
+}
+
 .style-as-button {
     background-color: white;
     height: 18px;

@@ -1,0 +1,30 @@
+#webpage {
+  background-color: lightgray;
+}
+
+#title {
+  color: darkred;
+    text-decoration: underline;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.centered {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.style-as-button {
+    background-color: orange;
+    height: 18px;
+    border: solid 1px black;
+    float: none;
+    text-align: center;
+    border-radius: 25px;
+    color: white;
+}

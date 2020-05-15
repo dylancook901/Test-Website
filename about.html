@@ -125,7 +125,7 @@
     <div>
       <!-- button -->
       <div class="style-as-button" id="myButton">
-        Back
+        <a href="index.html">Back</a>
       </div>
 
     </div>
@@ -163,7 +163,7 @@ myButtonEl.addEventListener('click', ButtonClicked)
     if (window.parent && window.parent.parent){
       window.parent.parent.postMessage(["resultsFrame", {
         height: document.body.getBoundingClientRect().height,
-        slug: "en7v9u3z"
+        slug: ""
       }], "*")
     }
 

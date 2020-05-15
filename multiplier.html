@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Test</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <script
+    type="text/javascript"
+    src="/js/lib/dummy.js"
+    
+  ></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+
+
+  <style id="compiled-css" type="text/css">
+      #webpage {
+  background-color: lightgray;
+}
+
+#title {
+  color: darkred;
+    text-decoration: underline;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.centered {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/* need column container */
+
+.columns {
+    width: 25%;
+    float: left;
+    height: 500px;
+}
+
+.style-as-button {
+    background-color: orange;
+    height: 18px;
+    border: solid 1px black;
+    float: none;
+    text-align: center;
+    border-radius: 25px;
+    color: white;
+}
+
+  </style>
+
+  <script id="insert"></script>
+
+
+    <script>
+      const customConsole = (w) => {
+        const pushToConsole = (payload, type) => {
+          w.parent.postMessage({
+            console: {
+              payload: payload,
+              type:    type
+            }
+          }, "*")
+        }
+
+        w.onerror = (message, url, line, column) => {
+          // the line needs to correspond with the editor panel
+          // unfortunately this number needs to be altered every time this view is changed
+          line = line - 79
+          if (line < 0){
+            pushToConsole(message, "error")
+          } else {
+            pushToConsole(`[${line}:${column}] ${message}`, "error")
+          }
+        }
+
+        w.console = (function(){
+          return {
+            log: (payload) => {
+              pushToConsole(payload, "log")
+            },
+            info: (payload) => {
+              pushToConsole(payload, "info")
+            },
+            warn: (payload) => {
+              pushToConsole(payload, "warn")
+            },
+            error: (payload) => {
+              pushToConsole(payload, "error")
+            },
+            system: (payload) => {
+              pushToConsole(payload, "system")
+            }
+          }
+        }())
+
+        console.system("Running fiddle")
+      }
+
+      if (window.parent){
+        customConsole(window)
+      }
+    </script>
+</head>
+<body>
+    <body id="webpage">
+  <div>
+    <h2>
+      Multiplier
+    </h2>
+    <br>
+    <div id="inputOne">
+      Number One
+    </div>
+
+    <div id="inputTwo">
+      Number Two
+    </div>
+    <div id="result">
+      Result
+    </div>
+  </div>
+</body>
+
+
+  <!-- TODO: Missing CoffeeScript 2 -->
+
+  <script type="text/javascript">//<![CDATA[
+
+
+
+var inputOneEl = document.getElementById('inputOne')
+var inputTwoEl = document.getElementById('inputTwo')
+var resultEl = document.getElementById('result')
+
+var numberOne = 0;
+var numberTwo = 0;
+
+function inputOneClicked() {
+		numberOne = prompt("Enter a number.");
+        inputOneEl.innerHTML = numberOne;
+}
+
+function inputTwoClicked() {
+		numberTwo = prompt("Enter a number.");
+        inputTwoEl.innerHTML = numberTwo;
+}
+
+
+inputOneEl.addEventListener("click", inputOneClicked)
+inputTwoEl.addEventListener("click", inputTwoClicked)
+
+function multiply() {
+		if (inputOneEl.innerHTML == numberOne && inputTwoEl.innerHTML == numberTwo);	{
+        resultEl.innerHTML = numberOne * numberTwo;
+        }
+
+}
+
+resultEl.addEventListener("click", multiply)
+
+
+  //]]></script>
+
+  <script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: "j8ufep19"
+      }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+  </script>
+
+    <script>
+      let allLines = []
+
+      window.addEventListener("message", (message) => {
+        if (message.data.console){
+          let insert = document.querySelector("#insert")
+          allLines.push(message.data.console.payload)
+          insert.innerHTML = allLines.join(";\r")
+
+          let result = eval.call(null, message.data.console.payload)
+          if (result !== undefined){
+            console.log(result)
+          }
+        }
+      })
+    </script>
+
+</body>
+</html>

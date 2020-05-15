@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Test</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <script
+    type="text/javascript"
+    src="/js/lib/dummy.js"
+    
+  ></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+
+
+  <style id="compiled-css" type="text/css">
+      #webpage {
+  background-color: lightgray;
+}
+
+#title {
+  color: darkred;
+    text-decoration: underline;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.centered {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.style-as-button {
+    background-color: orange;
+    width: 100px;
+    padding: 16px;
+    border: solid 1px black;
+    float: none;
+    text-align: center;
+    border-radius: 25px;
+    color: white;
+}
+
+  </style>
+
+  <script id="insert"></script>
+
+
+    <script>
+      const customConsole = (w) => {
+        const pushToConsole = (payload, type) => {
+          w.parent.postMessage({
+            console: {
+              payload: payload,
+              type:    type
+            }
+          }, "*")
+        }
+
+        w.onerror = (message, url, line, column) => {
+          // the line needs to correspond with the editor panel
+          // unfortunately this number needs to be altered every time this view is changed
+          line = line - 79
+          if (line < 0){
+            pushToConsole(message, "error")
+          } else {
+            pushToConsole(`[${line}:${column}] ${message}`, "error")
+          }
+        }
+
+        w.console = (function(){
+          return {
+            log: (payload) => {
+              pushToConsole(payload, "log")
+            },
+            info: (payload) => {
+              pushToConsole(payload, "info")
+            },
+            warn: (payload) => {
+              pushToConsole(payload, "warn")
+            },
+            error: (payload) => {
+              pushToConsole(payload, "error")
+            },
+            system: (payload) => {
+              pushToConsole(payload, "system")
+            }
+          }
+        }())
+
+        console.system("Running fiddle")
+      }
+
+      if (window.parent){
+        customConsole(window)
+      }
+    </script>
+</head>
+<body>
+    <body id="webpage">
+  <div>
+    <div>
+      <!-- testing fonts -->
+      <div id="title" class="italic centered">
+        <h1>
+          Wikimedia Commons Pictures of the Year 2019
+        </h1>
+      </div>
+      <div class="bold">
+        <p class="centered">
+          testing text typing text - <a href="https://commons.wikimedia.org/wiki/Main_Page">Wikimedia Commons</a>
+        </p>
+      </div>
+      <div class="centered">
+        <!-- testing image links -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Mud_Cow_Racing_-_Pacu_Jawi_-_West_Sumatra%2C_Indonesia.jpg/650px-Mud_Cow_Racing_-_Pacu_Jawi_-_West_Sumatra%2C_Indonesia.jpg" alt="red clover" height=30% width=30%>
+        <br>
+        By Rodney Ee - licensed under CC BY 2.0
+      </div>
+    </div>
+    <div>
+      <!-- button -->
+      <div class="style-as-button" id="myButton">
+        This is a button
+      </div>
+
+    </div>
+  </div>
+</body>
+
+  <!-- TODO: Missing CoffeeScript 2 -->
+
+  <script type="text/javascript">//<![CDATA[
+
+
+// this code adds interaction to my button element
+var myButtonEl = document.getElementById('myButton');
+var name = "";
+console.log("test");
+console.log(myButtonEl);
+
+function ButtonClicked() {
+  // if statements ask a question that must resolve to true or false
+   if (myButtonEl.style.backgroundColor == "blue") {
+    myButtonEl.style.backgroundColor = "orange";
+  } else {
+    myButtonEl.style.backgroundColor = "blue";
+  } 
+  // background-color backgroundColor background_color
+}
+myButtonEl.addEventListener('click', ButtonClicked)
+
+
+
+  //]]></script>
+
+  <script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: ""
+      }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+  </script>
+
+    <script>
+      let allLines = []
+
+      window.addEventListener("message", (message) => {
+        if (message.data.console){
+          let insert = document.querySelector("#insert")
+          allLines.push(message.data.console.payload)
+          insert.innerHTML = allLines.join(";\r")
+
+          let result = eval.call(null, message.data.console.payload)
+          if (result !== undefined){
+            console.log(result)
+          }
+        }
+      })
+    </script>
+
+</body>
+</html>

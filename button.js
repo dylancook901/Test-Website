@@ -6,7 +6,7 @@ console.log("test");
 function ButtonClicked() {
   // if statements ask a question that must resolve to true or false
    if (myButtonEl.style.backgroundColor == "blue") {
-    myButtonEl.style.backgroundColor = "orange";
+    myButtonEl.style.backgroundColor = "white";
   } else {
     myButtonEl.style.backgroundColor = "blue";
   } 
